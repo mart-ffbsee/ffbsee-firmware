@@ -240,8 +240,15 @@ initial_batman_setup()
 initial_setup()
 {
 	local prefix="fdef:1701:b5ee:23::/64"
+	
+	if uci -q get network.wan.ifname; then
+		local wan_interface=$(uci -q get network.wan.ifname)
+	else
+		if ip a | grep eth1; then
+			local wan_interface="eth1"
+		fi
+	fi
 
-	local wan_interface=$(uci -q get network.wan.ifname)
 	echo "(I) WAN interface: '$wan_interface'"
 
 	local lan_interface=$(uci -q get network.lan.ifname)
