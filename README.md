@@ -1,4 +1,4 @@
-Firmware for Freifunk Bodensee BATMAN_V network
+Raspberry Pi4 Firmware for Freifunk Bodensee BATMAN_V network
 =========================
 
 The firmware turns a common wireless router into a mesh networking device.
@@ -25,13 +25,12 @@ Build commands for the console:
 ```bash
 git clone git://git.openwrt.org/source.git
 cd source
-git reset --hard 8bf8de95a20d9fee54bbd579832c578c62cbc901 
 
-git clone https://github.com/ffbsee/ffbsee-firmware.git
+git clone https://github.com/ffbsee/ffbsee-firmware.git -b raspi4
 cd ffbsee-firmware
 ./minify-webstuff.sh
 cd ..
-cp -rf ffbsee-firmware/files ffbsee-firmware/package ffbsee-firmware/feeds.conf .
+cp -rf ffbsee-firmware/files ffbsee-firmware/package .
 
 ./scripts/feeds update -a
 ./scripts/feeds install -a
