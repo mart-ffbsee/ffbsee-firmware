@@ -1,7 +1,6 @@
-From 4452e92485a6cb1ae1cad2c9aa739a944319c13a Mon Sep 17 00:00:00 2001
 From: David Bauer <mail@david-bauer.net>
 Date: Wed, 23 Oct 2019 22:25:14 +0200
-Subject: [PATCH 08/10] ipq40xx: add support for Aruba AP-303
+Subject: ipq40xx: add support for Aruba AP-303
 
 Hardware
 --------
@@ -76,22 +75,9 @@ bootloader to the original value:
 
 Signed-off-by: David Bauer <mail@david-bauer.net>
 (cherry picked from commit 102c8c55f217606cdbdc9a449667e034676b3e75)
----
- .../ipq40xx/base-files/etc/board.d/02_network |   1 +
- .../etc/hotplug.d/firmware/11-ath10k-caldata  |   8 +
- target/linux/ipq40xx/base-files/etc/inittab   |   1 +
- .../preinit/06_set_preinit_iface_ipq40xx.sh   |   1 +
- .../base-files/lib/upgrade/platform.sh        |   1 +
- .../arch/arm/boot/dts/qcom-ipq4029-ap-303.dts | 418 ++++++++++++++++++
- target/linux/ipq40xx/image/Makefile           |   9 +
- ...d-spi-nor-Add-support-for-mx25r3235f.patch |  26 ++
- .../901-arm-boot-add-dts-files.patch          |   3 +-
- 9 files changed, 467 insertions(+), 1 deletion(-)
- create mode 100644 target/linux/ipq40xx/files-4.14/arch/arm/boot/dts/qcom-ipq4029-ap-303.dts
- create mode 100644 target/linux/ipq40xx/patches-4.14/304-mtd-spi-nor-Add-support-for-mx25r3235f.patch
 
 diff --git a/target/linux/ipq40xx/base-files/etc/board.d/02_network b/target/linux/ipq40xx/base-files/etc/board.d/02_network
-index 01825b8bac..49dd570242 100755
+index 01825b8bac46eec6325de00396d96307c946f975..49dd570242533068adf2c9df89e78560ba5f70eb 100755
 --- a/target/linux/ipq40xx/base-files/etc/board.d/02_network
 +++ b/target/linux/ipq40xx/base-files/etc/board.d/02_network
 @@ -39,6 +39,7 @@ ipq40xx_setup_interfaces()
@@ -103,7 +89,7 @@ index 01825b8bac..49dd570242 100755
  	engenius,eap1300|\
  	meraki,mr33|\
 diff --git a/target/linux/ipq40xx/base-files/etc/hotplug.d/firmware/11-ath10k-caldata b/target/linux/ipq40xx/base-files/etc/hotplug.d/firmware/11-ath10k-caldata
-index b0035ce8a3..15a2f2c09f 100644
+index b0035ce8a394b6e87d7d89b9f55a6ec7c66e448e..15a2f2c09f8a92cc0accfbf9a977dbeb3355570d 100644
 --- a/target/linux/ipq40xx/base-files/etc/hotplug.d/firmware/11-ath10k-caldata
 +++ b/target/linux/ipq40xx/base-files/etc/hotplug.d/firmware/11-ath10k-caldata
 @@ -137,6 +137,10 @@ case "$FIRMWARE" in
@@ -129,7 +115,7 @@ index b0035ce8a3..15a2f2c09f 100644
  		ath10kcal_ubi_extract "Factory" 20480 12064
  		;;
 diff --git a/target/linux/ipq40xx/base-files/etc/inittab b/target/linux/ipq40xx/base-files/etc/inittab
-index 809bba5e5f..3181021a05 100644
+index 809bba5e5ff49869429c91cf791cea73ab67d14e..3181021a0592720657b815c3eac803a57f4ea438 100644
 --- a/target/linux/ipq40xx/base-files/etc/inittab
 +++ b/target/linux/ipq40xx/base-files/etc/inittab
 @@ -2,3 +2,4 @@
@@ -138,7 +124,7 @@ index 809bba5e5f..3181021a05 100644
  ttyMSM0::askfirst:/usr/libexec/login.sh
 +ttyMSM1::askfirst:/usr/libexec/login.sh
 diff --git a/target/linux/ipq40xx/base-files/lib/preinit/06_set_preinit_iface_ipq40xx.sh b/target/linux/ipq40xx/base-files/lib/preinit/06_set_preinit_iface_ipq40xx.sh
-index be4b6322cb..a0dec1042a 100644
+index be4b6322cb6a91f489dfec237ac6b79ce079e0eb..a0dec1042a3dd7416ece3307666c8ecf9d15d277 100644
 --- a/target/linux/ipq40xx/base-files/lib/preinit/06_set_preinit_iface_ipq40xx.sh
 +++ b/target/linux/ipq40xx/base-files/lib/preinit/06_set_preinit_iface_ipq40xx.sh
 @@ -4,6 +4,7 @@ set_preinit_iface() {
@@ -150,7 +136,7 @@ index be4b6322cb..a0dec1042a 100644
  	avm,fritzbox-4040| \
  	glinet,gl-b1300| \
 diff --git a/target/linux/ipq40xx/base-files/lib/upgrade/platform.sh b/target/linux/ipq40xx/base-files/lib/upgrade/platform.sh
-index a7b7da1bf3..7253139497 100644
+index a7b7da1bf378f7cc19e960c497bc52efb3bae4fb..7253139497a8a8b9fab49cef3fce5eabe98d8002 100644
 --- a/target/linux/ipq40xx/base-files/lib/upgrade/platform.sh
 +++ b/target/linux/ipq40xx/base-files/lib/upgrade/platform.sh
 @@ -48,6 +48,7 @@ platform_do_upgrade() {
@@ -163,7 +149,7 @@ index a7b7da1bf3..7253139497 100644
  	avm,fritzrepeater-3000 |\
 diff --git a/target/linux/ipq40xx/files-4.14/arch/arm/boot/dts/qcom-ipq4029-ap-303.dts b/target/linux/ipq40xx/files-4.14/arch/arm/boot/dts/qcom-ipq4029-ap-303.dts
 new file mode 100644
-index 0000000000..7929494d02
+index 0000000000000000000000000000000000000000..7929494d027aca5c696910232a36d484f5ce6562
 --- /dev/null
 +++ b/target/linux/ipq40xx/files-4.14/arch/arm/boot/dts/qcom-ipq4029-ap-303.dts
 @@ -0,0 +1,418 @@
@@ -586,7 +572,7 @@ index 0000000000..7929494d02
 +	qcom,ath10k-calibration-variant = "Aruba-AP-303";
 +};
 diff --git a/target/linux/ipq40xx/image/Makefile b/target/linux/ipq40xx/image/Makefile
-index 98c81726d9..68dcbc59a4 100644
+index 98c81726d9c12bd466df2150c3e98a76cfb46f78..68dcbc59a42f6d8360b87c7b4e74cd34f697b465 100644
 --- a/target/linux/ipq40xx/image/Makefile
 +++ b/target/linux/ipq40xx/image/Makefile
 @@ -85,6 +85,15 @@ define Device/alfa-network_ap120c-ac
@@ -607,7 +593,7 @@ index 98c81726d9..68dcbc59a4 100644
  	DEVICE_DTS := qcom-ipq4019-map-ac2200
 diff --git a/target/linux/ipq40xx/patches-4.14/304-mtd-spi-nor-Add-support-for-mx25r3235f.patch b/target/linux/ipq40xx/patches-4.14/304-mtd-spi-nor-Add-support-for-mx25r3235f.patch
 new file mode 100644
-index 0000000000..d95923a161
+index 0000000000000000000000000000000000000000..d95923a1610d4764538e79bb783702903edcdcad
 --- /dev/null
 +++ b/target/linux/ipq40xx/patches-4.14/304-mtd-spi-nor-Add-support-for-mx25r3235f.patch
 @@ -0,0 +1,26 @@
@@ -638,7 +624,7 @@ index 0000000000..d95923a161
 + 	{ "mx25u2033e",  INFO(0xc22532, 0, 64 * 1024,   4, SECT_4K) },
 + 	{ "mx25u4035",   INFO(0xc22533, 0, 64 * 1024,   8, SECT_4K) },
 diff --git a/target/linux/ipq40xx/patches-4.14/901-arm-boot-add-dts-files.patch b/target/linux/ipq40xx/patches-4.14/901-arm-boot-add-dts-files.patch
-index f7efd415f1..fc8a883364 100644
+index f7efd415f1f1c000867793b3b133e44b3e50b0fd..fc8a88336491c2ac7c2a93fafb1f2b6fd38695be 100644
 --- a/target/linux/ipq40xx/patches-4.14/901-arm-boot-add-dts-files.patch
 +++ b/target/linux/ipq40xx/patches-4.14/901-arm-boot-add-dts-files.patch
 @@ -10,7 +10,7 @@ Signed-off-by: John Crispin <john@phrozen.org>
@@ -658,6 +644,3 @@ index f7efd415f1..fc8a883364 100644
  +	qcom-ipq4029-gl-b1300.dtb \
  +	qcom-ipq4029-mr33.dtb \
   	qcom-ipq8064-ap148.dtb \
--- 
-2.26.2
-

@@ -1,20 +1,12 @@
-From 6f594e1e3ab5c93a18ae375fe6941e3f113fef28 Mon Sep 17 00:00:00 2001
 From: Matthias Schiffer <mschiffer@universe-factory.net>
 Date: Thu, 12 Apr 2018 07:50:02 +0200
-Subject: [PATCH 05/10] kernel: ebtables: add support for ICMP/IGMP type
- matches
+Subject: kernel: ebtables: add support for ICMP/IGMP type matches
 
 Signed-off-by: Matthias Schiffer <mschiffer@universe-factory.net>
----
- ...port-for-matching-ICMP-type-and-code.patch | 134 ++++++++++++++++++
- ...s-add-support-for-matching-IGMP-type.patch |  88 ++++++++++++
- 2 files changed, 222 insertions(+)
- create mode 100644 target/linux/generic/backport-4.14/096-0001-ebtables-add-support-for-matching-ICMP-type-and-code.patch
- create mode 100644 target/linux/generic/backport-4.14/096-0002-ebtables-add-support-for-matching-IGMP-type.patch
 
 diff --git a/target/linux/generic/backport-4.14/096-0001-ebtables-add-support-for-matching-ICMP-type-and-code.patch b/target/linux/generic/backport-4.14/096-0001-ebtables-add-support-for-matching-ICMP-type-and-code.patch
 new file mode 100644
-index 0000000000..fe9c479338
+index 0000000000000000000000000000000000000000..fe9c479338a7b597be649c761c70a63085b51c5f
 --- /dev/null
 +++ b/target/linux/generic/backport-4.14/096-0001-ebtables-add-support-for-matching-ICMP-type-and-code.patch
 @@ -0,0 +1,134 @@
@@ -154,7 +146,7 @@ index 0000000000..fe9c479338
 + 
 diff --git a/target/linux/generic/backport-4.14/096-0002-ebtables-add-support-for-matching-IGMP-type.patch b/target/linux/generic/backport-4.14/096-0002-ebtables-add-support-for-matching-IGMP-type.patch
 new file mode 100644
-index 0000000000..4c8144834d
+index 0000000000000000000000000000000000000000..4c8144834d87c58ff90363cdc2f2933194e54fdc
 --- /dev/null
 +++ b/target/linux/generic/backport-4.14/096-0002-ebtables-add-support-for-matching-IGMP-type.patch
 @@ -0,0 +1,88 @@
@@ -246,6 +238,3 @@ index 0000000000..4c8144834d
 + 	return 0;
 + }
 + 
--- 
-2.26.2
-

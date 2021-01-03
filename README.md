@@ -25,7 +25,7 @@ Build commands for the console:
 ```bash
 git clone git://git.openwrt.org/source.git
 cd source
-git reset --hard 5feb0df9bb3bd83ec49af17d2abc261fc58e2551 
+git reset --hard d0b8be75ff248b4cda009a6c1ce72eb0072c6f82 
 
 git clone https://github.com/ffbsee/ffbsee-firmware.git
 cd ffbsee-firmware
