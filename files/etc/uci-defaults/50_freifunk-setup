@@ -746,6 +746,16 @@ update_220() {
 
 }
 
+update_230() {
+
+        # Preserve self signed certificates
+        cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
+        cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
+
+	# add new robin cronjob
+	cp /rom/etc/crontabs/root /etc/crontabs 2> /dev/null
+}
+
 start()
 {
 	echo "(I) Start freifunk_setup"
@@ -781,6 +791,7 @@ start()
 			update_122
 			update_200
 			update_220
+			update_230
 			update_version
 			;;
 		0.0.3*)
@@ -798,6 +809,7 @@ start()
 			update_122
 			update_200
 			update_220
+			update_230
 			update_version
 			;;
 		0.0.4*)
@@ -814,6 +826,7 @@ start()
 			update_122
 			update_200
 			update_220
+			update_230
 			update_version
 			;;
 		0.0.5*)
@@ -829,6 +842,7 @@ start()
 			update_122
 			update_200
 			update_220
+			update_230
 			update_version
 			;;
 		0.0.6*)
@@ -843,6 +857,7 @@ start()
 			update_122
 			update_200
 			update_220
+			update_230
 			update_version
 			;;
 		0.1.0*)
@@ -857,6 +872,7 @@ start()
 			update_122
 			update_200
 			update_220
+			update_230
                         update_version
                         ;;
                 0.6.0*)
@@ -870,6 +886,7 @@ start()
 			update_122
 			update_200
 			update_220
+			update_230
                         update_version
                         ;;
                 0.6.1*)
@@ -883,6 +900,7 @@ start()
 			update_122
 			update_200
 			update_220
+			update_230
                         update_version
                         ;;
 		0.6.2*)
@@ -896,6 +914,7 @@ start()
 			update_122
 			update_200
 			update_220
+			update_230
 			update_version
 			;;
 		0.6.3*)
@@ -909,6 +928,7 @@ start()
 			update_122
 			update_200
 			update_220
+			update_230
 			update_version
 			;;
 		0.6.4*)
@@ -922,6 +942,7 @@ start()
 			update_122
 			update_200
 			update_220
+			update_230
 			update_version
 			;;
 		0.7.0*)
@@ -934,6 +955,7 @@ start()
 			update_122
 			update_200
 			update_220
+			update_230
 			update_version
 			;;
 		1.0.3*)
@@ -945,6 +967,7 @@ start()
 			update_122
 			update_200
 			update_220
+			update_230
                         update_version
                         ;;
 		1.0.5*)
@@ -955,6 +978,7 @@ start()
 			update_122
 			update_200
 			update_220
+			update_230
                         update_version
                         ;;
 		1.1.1*)
@@ -964,6 +988,7 @@ start()
 			update_122
 			update_200
 			update_220
+			update_230
                         update_version
                         ;;
 		1.1.4*)
@@ -972,6 +997,7 @@ start()
 			update_122
 			update_200
 			update_220
+			update_230
                         update_version
                         ;;
 		1.2.2*)
@@ -979,20 +1005,27 @@ start()
                         update_122
                         update_200
 			update_220
+			update_230
                         update_version
                         ;;
 		2.0.*)
                         echo "(I) Apply 2.0.x to 2.2.0 update."
                         update_200
 			update_220
+			update_230
                         update_version
                         ;;
 		2.2.0)
 			echo "(I) Apply 2.2.0 to 2.3.0 update."
                         update_220
+			update_230
                         update_version
                         ;;
-
+		2.3.0)
+                        echo "(I) Apply 2.3.0 to 2.4.0 update."
+                        update_230
+                        update_version
+                        ;;
 		"")
 			echo "(I) Start initial setup."
 			initial_setup
